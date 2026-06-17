@@ -1,7 +1,8 @@
 import customtkinter as ctk
 from PIL import Image
-import cv2 
+import cv2 as cv
 import os
+import mediapipe as mp
 
 app =ctk.CTk()
 ctk.set_appearance_mode("dark")
@@ -19,6 +20,12 @@ left_frame.grid(row=0,column=0,sticky='nsew')
 right_frame=ctk.CTkFrame(master=app,fg_color="white")
 right_frame.grid(row=0,column=1,sticky='nsew')
 
+camera_label = ctk.CTkLabel(left_frame,text="")
+camera_label.pack(fill='both',expand=True)
+
+# face_mesh=mp.solutions.face_mesh.FaceMesh(refine_landmarks=True)
+web_cam=cv.VideoCapture(0)
+
 capture_btn = ctk.CTkButton(right_frame,text="🔴",text_color="black",width=50,height=50,font=("Arial",15,"bold"),corner_radius=100,fg_color="black")
 capture_btn.pack(pady=(300,20))
 
@@ -28,5 +35,26 @@ view_btn.pack(pady=20)
 delete_btn = ctk.CTkButton(right_frame,text="Delete 🗑️",text_color="black",width=180,height=50,fg_color="red",font=("Arial",15,"bold"))
 delete_btn.pack(pady=20)
 
+def updat_cam():
+    _,image=web_cam.read()
+    image=cv.flip(image,1)
+    image=cv.cvtColor(image,cv.COLOR_BGR2RGB)
+    # cv.imshow("cam",image)
+    # key=cv.waitKey(100)
+    # if key==27:
+    #     break 
+    img = Image.fromarray(image)
 
+    ctk_img = ctk.CTkImage(light_image=img,dark_image=img,size=(800, 600))
+    camera_label.configure(image=ctk_img)
+    camera_label.image = ctk_img
+    app.after(10,updat_cam)
+
+def on_close():
+    web_cam.release()
+    app.destroy()
+
+
+app.protocol("WM_DELETE_WINDOW", on_close)
+updat_cam()
 app.mainloop()
