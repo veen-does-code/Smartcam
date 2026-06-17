@@ -19,15 +19,14 @@ left_frame.grid(row=0,column=0,sticky='nsew')
 right_frame=ctk.CTkFrame(master=app,fg_color="white")
 right_frame.grid(row=0,column=1,sticky='nsew')
 
-capture_btn = ctk.CTkButton(right_frame,text="Capture",text_color="black",width=180,height=50)
+capture_btn = ctk.CTkButton(right_frame,text="🔴",text_color="black",width=50,height=50,font=("Arial",15,"bold"),corner_radius=100,fg_color="black")
 capture_btn.pack(pady=(300,20))
 
-view_btn = ctk.CTkButton(right_frame,text="View Images",text_color="black",width=180,height=50)
+view_btn = ctk.CTkButton(right_frame,text="View Images 📷",text_color="black",width=180,height=50,font=("Arial",15,"bold"))
 view_btn.pack(pady=20)
 
-delete_btn = ctk.CTkButton(right_frame,text="Delete",text_color="black",width=180,height=50,fg_color="red")
+delete_btn = ctk.CTkButton(right_frame,text="Delete 🗑️",text_color="black",width=180,height=50,fg_color="red",font=("Arial",15,"bold"))
 delete_btn.pack(pady=20)
-
 
 
 app.mainloop()
