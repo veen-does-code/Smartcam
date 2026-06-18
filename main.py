@@ -49,10 +49,14 @@ def on_close():
     web_cam.release()
     app.destroy()
 
+x=1
+
 def capt():
     global latest_frame
+    global x
     if latest_frame is not None:
-        cv.imwrite("captures/photo.png",latest_frame)
+        cv.imwrite(f"captures/photo{x}.png",latest_frame)
+        x+=1
         print("saved")
 
 capture_btn = ctk.CTkButton(right_frame,text="🔴",text_color="black",width=50,height=50,font=("Arial",15,"bold"),corner_radius=100,fg_color="black",command=capt)
