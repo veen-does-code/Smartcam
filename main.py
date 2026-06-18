@@ -24,17 +24,7 @@ right_frame.grid(row=0,column=1,sticky='nsew')
 camera_label = ctk.CTkLabel(left_frame,text="")
 camera_label.pack(fill='both',expand=True)
 
-# face_mesh=mp.solutions.face_mesh.FaceMesh(refine_landmarks=True)
 web_cam=cv.VideoCapture(0)
-
-# capture_btn = ctk.CTkButton(right_frame,text="🔴",text_color="black",width=50,height=50,font=("Arial",15,"bold"),corner_radius=100,fg_color="black",command=capt())
-# capture_btn.pack(pady=(300,20))
-
-# view_btn = ctk.CTkButton(right_frame,text="View Images 📷",text_color="black",width=180,height=50,font=("Arial",15,"bold"))
-# view_btn.pack(pady=20)
-
-# delete_btn = ctk.CTkButton(right_frame,text="Delete 🗑️",text_color="black",width=180,height=50,fg_color="red",font=("Arial",15,"bold"))
-# delete_btn.pack(pady=20)
 
 latest_frame = None
 
@@ -64,8 +54,6 @@ def capt():
     if latest_frame is not None:
         cv.imwrite("captures/photo.png",latest_frame)
         print("saved")
-        sys.stdout.write('\a')
-        sys.stdout.flush()
 
 capture_btn = ctk.CTkButton(right_frame,text="🔴",text_color="black",width=50,height=50,font=("Arial",15,"bold"),corner_radius=100,fg_color="black",command=capt)
 capture_btn.pack(pady=(300,20))
