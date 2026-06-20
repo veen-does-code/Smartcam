@@ -59,10 +59,29 @@ def capt():
         x+=1
         print("saved")
 
+def view_images():
+    files=os.listdir("captures")
+    if not files:
+        print("No images")
+
+    latest = sorted(files)[-1]
+    path = os.path.join("captures", latest)
+
+    img = Image.open(path)
+    img = ctk.CTkImage(light_image=img, dark_image=img, size=(500, 400))
+
+    window = ctk.CTkToplevel(app)
+    window.geometry("600x450")
+    window.title("Captured Images")
+
+    label = ctk.CTkLabel(window, text="", image=img)
+    label.image = img
+    label.pack(pady=20)
+
 capture_btn = ctk.CTkButton(right_frame,text="🔴",text_color="black",width=50,height=50,font=("Arial",15,"bold"),corner_radius=100,fg_color="black",command=capt)
 capture_btn.pack(pady=(300,20))
 
-view_btn = ctk.CTkButton(right_frame,text="View Images 📷",text_color="black",width=180,height=50,font=("Arial",15,"bold"))
+view_btn = ctk.CTkButton(right_frame,text="View Images 📷",text_color="black",width=180,height=50,font=("Arial",15,"bold"),command=view_images)
 view_btn.pack(pady=20)
 
 delete_btn = ctk.CTkButton(right_frame,text="Delete 🗑️",text_color="black",width=180,height=50,fg_color="red",font=("Arial",15,"bold"))
