@@ -65,9 +65,9 @@ def view_images():
         print("No images")
 
     latest = sorted(files)[-1]
-    path = os.path.join("captures", latest)
+    # path = os.path.join("captures", latest)
 
-    img = Image.open(path)
+    img = Image.open(f"captures/{latest}")
     img = ctk.CTkImage(light_image=img, dark_image=img, size=(500, 400))
 
     window = ctk.CTkToplevel(app)
