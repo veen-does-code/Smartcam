@@ -4,6 +4,7 @@ import cv2 as cv
 import os
 import mediapipe as mp
 import sys
+import math
 
 app =ctk.CTk()
 ctk.set_appearance_mode("dark")
@@ -28,12 +29,14 @@ web_cam=cv.VideoCapture(0)
 face_mesh=mp.solutions.face_mesh.FaceMesh(refine_landmarks=True)
 
 latest_frame = None
+x1,x2,x3,x4,y1,y2,y3,y4=0,0,0,0,0,0,0,0
 
 def updat_cam():
     global latest_frame
     _,image=web_cam.read()
     image=cv.flip(image,1)
     image=cv.cvtColor(image,cv.COLOR_BGR2RGB)
+    fh,fw,_=image.shape
     # cv.imshow("cam",image)
     # key=cv.waitKey(100)
     # if key==27:
@@ -44,7 +47,29 @@ def updat_cam():
     if landmark_points:
         landmarks = landmark_points[0].landmark
         for id,landmark in enumerate(landmarks):
-            print(landmark.x,landmark.y)
+            x = int(landmark.x * fw)
+            y = int(landmark.y * fh)
+            if id==159:
+                x1=x
+                y1=y
+            if id==145:
+                x2=x
+                y2=y
+            if id==386:
+                x3=x
+                y3=y
+            if id==374:
+                x4=x
+                y4=y
+        distl = math.sqrt((x2-x1)**2+(y2-y1)**2)
+        distr = math.sqrt((x4-x3)**2+(y4-y3)**2)
+        distl = int(distl)
+        distr = int(distr)
+        print(distl,distr)
+        if distl < 10 or distr < 10 :
+            capt()
+        
+
     
     ctk_img = ctk.CTkImage(light_image=img,dark_image=img,size=(800, 600))
     camera_label.configure(image=ctk_img)
