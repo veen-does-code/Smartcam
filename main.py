@@ -25,6 +25,7 @@ camera_label = ctk.CTkLabel(left_frame,text="")
 camera_label.pack(fill='both',expand=True)
 
 web_cam=cv.VideoCapture(0)
+face_mesh=mp.solutions.face_mesh.FaceMesh(refine_landmarks=True)
 
 latest_frame = None
 
@@ -38,7 +39,13 @@ def updat_cam():
     # if key==27:
     #     break 
     img = Image.fromarray(image)
-
+    output = face_mesh.process(image)
+    landmark_points = output.multi_face_landmarks
+    if landmark_points:
+        landmarks = landmark_points[0].landmark
+        for id,landmark in enumerate(landmarks):
+            print(landmark.x,landmark.y)
+    
     ctk_img = ctk.CTkImage(light_image=img,dark_image=img,size=(800, 600))
     camera_label.configure(image=ctk_img)
     camera_label.image = ctk_img
@@ -65,7 +72,6 @@ def view_images():
         print("No images")
 
     latest = sorted(files)[-1]
-    # path = os.path.join("captures", latest)
 
     img = Image.open(f"captures/{latest}")
     img = ctk.CTkImage(light_image=img, dark_image=img, size=(500, 400))
@@ -90,3 +96,5 @@ delete_btn.pack(pady=20)
 app.protocol("WM_DELETE_WINDOW", on_close)
 updat_cam()
 app.mainloop()
+
+
