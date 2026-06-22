@@ -95,25 +95,44 @@ def view_images():
     files=os.listdir("captures")
     if not files:
         print("No images")
+    
+    latest = sorted(files)[-1]
+
+    # img = Image.open(f"captures/{latest}")
+    # img = ctk.CTkImage(light_image=img, dark_image=img, size=(500, 400))
 
     window = ctk.CTkToplevel(app)
     window.geometry("600x450")
     window.title("Captured Images")
+
+    scroll = ctk.CTkScrollableFrame(window)
+    scroll.pack(expand=True,fill="both")
+
+    row,column=0,0
     
-    for i in range(len(files)):
+    for file in files:
+        card = ctk.CTkFrame(scroll)
+        card.grid(row=row,column=column,padx=20,pady=20)
 
-        latest = sorted(files)[-(i+1)]
+        img = Image.open(f"captures/{file}")
+        img = ctk.CTkImage(light_image=img, dark_image=img, size=(200, 150))
 
-        img = Image.open(f"captures/{latest}")
-        img = ctk.CTkImage(light_image=img, dark_image=img, size=(500, 400))
-
-        # window = ctk.CTkToplevel(app)
-        # window.geometry("600x450")
-        # window.title("Captured Images")
-
-        label = ctk.CTkLabel(window, text="", image=img)
+        label = ctk.CTkLabel(card, text="", image=img)
         label.image = img
         label.pack(pady=20)
+
+        delete_btn = ctk.CTkButton(card,text="Delete 🗑️",text_color="black",fg_color="red",font=("Arial",15,"bold"),command=lambda f=file,c=card:delete(f,c))
+        delete_btn.pack(pady=10)
+
+        column+=1
+        if column==3:
+            column=0
+            row+=1
+
+def delete(file,frame):
+    os.remove(f"captures/{file}")
+    frame.destroy()
+
 
 capture_btn = ctk.CTkButton(right_frame,text="🔴",text_color="black",width=50,height=50,font=("Arial",15,"bold"),corner_radius=100,fg_color="black",command=capt)
 capture_btn.pack(pady=(300,20))
