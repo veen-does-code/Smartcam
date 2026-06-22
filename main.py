@@ -95,14 +95,9 @@ def view_images():
     files=os.listdir("captures")
     if not files:
         print("No images")
-    
-    latest = sorted(files)[-1]
-
-    # img = Image.open(f"captures/{latest}")
-    # img = ctk.CTkImage(light_image=img, dark_image=img, size=(500, 400))
 
     window = ctk.CTkToplevel(app)
-    window.geometry("600x450")
+    window.geometry("600x600")
     window.title("Captured Images")
 
     scroll = ctk.CTkScrollableFrame(window)
@@ -139,9 +134,6 @@ capture_btn.pack(pady=(300,20))
 
 view_btn = ctk.CTkButton(right_frame,text="View Images 📷",text_color="black",width=180,height=50,font=("Arial",15,"bold"),command=view_images)
 view_btn.pack(pady=20)
-
-delete_btn = ctk.CTkButton(right_frame,text="Delete 🗑️",text_color="black",width=180,height=50,fg_color="red",font=("Arial",15,"bold"))
-delete_btn.pack(pady=20)
 
 app.protocol("WM_DELETE_WINDOW", on_close)
 updat_cam()
